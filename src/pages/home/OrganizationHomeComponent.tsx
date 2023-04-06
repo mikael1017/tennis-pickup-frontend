@@ -4,7 +4,6 @@ const OrganizationHome = () => {
     return (
         <div>
         <h1>Logged in Organization Home</h1>
-        <h2></h2>
         </div>
     );
 };
