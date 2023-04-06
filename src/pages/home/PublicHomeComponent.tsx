@@ -1,12 +1,12 @@
 import React from "react";
-import PublicNavBar from "../../Navbar/PublicNavbar";
+import PublicNavBar from "../../navbar/PublicNavbar";
 
 const PublicHomeComponent = () => {
   return (
     <div>
       <PublicNavBar />
       {/* anonymous content up to here */}
-      
+
 
       {/* logged in content has to be different*/}
       {/*  */}
