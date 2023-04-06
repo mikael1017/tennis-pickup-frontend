@@ -1,9 +1,9 @@
 import './App.css';
-import Home from './pages/home';
-import Login from './pages/login';
-import Profile from './pages/profile';
-import Search from './pages/search';
-import Details from './pages/details';
+import Home from './pages/home/PublicHomeComponent';
+import Login from './pages/login/LoginComponent';
+import Profile from './pages/profile/ProfileComponent';
+import Search from './pages/search/SearchComponent';
+import Details from './pages/details/DetailComponent';
 
 import { BrowserRouter } from "react-router-dom";
 import { Routes, Route } from "react-router";
