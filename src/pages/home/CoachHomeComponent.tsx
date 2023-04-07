@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 
-const DonatorHome = () => {
+const CoachHome = () => {
     return (
         <div>
         <h1>Donator Home</h1>
@@ -14,4 +14,4 @@ const DonatorHome = () => {
         </div>
     )
 };
-export default DonatorHome;
+export default CoachHome;
