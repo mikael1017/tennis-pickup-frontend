@@ -12,11 +12,13 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
+import { useNavigate } from "react-router-dom";
 
-const pages = ["Products", "Pricing", "Blog"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const pages = ["People", "Search", "My Courts"];
+const settings = ["Register", "Login"];
 
 function PublicNavBar() {
+	const navigate = useNavigate();
 	const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
 		null
 	);
@@ -26,19 +28,29 @@ function PublicNavBar() {
 
 	const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorElNav(event.currentTarget);
+		console.log("handleOpenNavMenu");
 	};
 	const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorElUser(event.currentTarget);
+		console.log("handleOpenUserMenu");
 	};
 
 	const handleCloseNavMenu = () => {
 		setAnchorElNav(null);
+
+		console.log("handleCloseNavMenu");
 	};
 
 	const handleCloseUserMenu = () => {
 		setAnchorElUser(null);
+		console.log("handleCloseUserMenu");
 	};
 
+	const handleNavClick = (page: string) => {
+		console.log("handleNavClick");
+		console.log(page);
+		navigate(page);
+	};
 	return (
 		<AppBar position="static">
 			<Container maxWidth="xl">
@@ -61,7 +73,7 @@ function PublicNavBar() {
 							textDecoration: "none",
 						}}
 					>
-						LOGO
+						HOME
 					</Typography>
 
 					<Box
@@ -101,7 +113,7 @@ function PublicNavBar() {
 							{pages.map((page) => (
 								<MenuItem
 									key={page}
-									onClick={handleCloseNavMenu}
+									onClick={() => handleNavClick(page)}
 								>
 									<Typography textAlign="center">
 										{page}
@@ -129,7 +141,7 @@ function PublicNavBar() {
 							textDecoration: "none",
 						}}
 					>
-						LOGO
+						HOME
 					</Typography>
 					<Box
 						sx={{
@@ -140,7 +152,7 @@ function PublicNavBar() {
 						{pages.map((page) => (
 							<Button
 								key={page}
-								onClick={handleCloseNavMenu}
+								onClick={() => handleNavClick(page)}
 								sx={{ my: 2, color: "white", display: "block" }}
 							>
 								{page}
@@ -148,45 +160,21 @@ function PublicNavBar() {
 						))}
 					</Box>
 
-					<Box sx={{ flexGrow: 0 }}>
-						<Tooltip title="Open settings">
-							<IconButton
-								onClick={handleOpenUserMenu}
-								sx={{ p: 0 }}
+					<Box
+						sx={{
+							flexGrow: 1,
+							display: { xs: "none", md: "flex" },
+						}}
+					>
+						{settings.map((setting) => (
+							<Button
+								key={setting}
+								onClick={() => handleNavClick(setting)}
+								sx={{ my: 2, color: "white", display: "block" }}
 							>
-								<Avatar
-									alt="Remy Sharp"
-									src="/static/images/avatar/2.jpg"
-								/>
-							</IconButton>
-						</Tooltip>
-						<Menu
-							sx={{ mt: "45px" }}
-							id="menu-appbar"
-							anchorEl={anchorElUser}
-							anchorOrigin={{
-								vertical: "top",
-								horizontal: "right",
-							}}
-							keepMounted
-							transformOrigin={{
-								vertical: "top",
-								horizontal: "right",
-							}}
-							open={Boolean(anchorElUser)}
-							onClose={handleCloseUserMenu}
-						>
-							{settings.map((setting) => (
-								<MenuItem
-									key={setting}
-									onClick={handleCloseUserMenu}
-								>
-									<Typography textAlign="center">
-										{setting}
-									</Typography>
-								</MenuItem>
-							))}
-						</Menu>
+								{setting}
+							</Button>
+						))}
 					</Box>
 				</Toolbar>
 			</Container>

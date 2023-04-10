@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import * as service from "./courts-service";
-import { Court } from "../models/Court";
+import { Court } from "../../models/Court";
 
 export const findCourtsByCityThunk = createAsyncThunk(
 	"courts/findCourtsByCity",
