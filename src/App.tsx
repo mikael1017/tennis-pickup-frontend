@@ -10,7 +10,7 @@ import { BrowserRouter } from "react-router-dom";
 import { Routes, Route } from "react-router";
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./reducers/user-reducer";
-
+import CourtScreen from "./pages/court/CourtScreen";
 function App() {
 	const store = configureStore({
 		reducer: {
@@ -36,6 +36,7 @@ function App() {
 								path="/register/*"
 								element={<RegisterScreen />}
 							/>
+							<Route path="/court/*" element={<CourtScreen />} />
 						</Routes>
 					</div>
 				</BrowserRouter>
