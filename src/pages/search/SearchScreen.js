@@ -9,11 +9,16 @@ import {
 	Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { getLocationInfo } from "../../services/google/google-service";
+import {
+	getLocationInfo,
+	getPlaceDetails,
+	// getPlacePhoto,
+} from "../../services/google/google-service";
 import PublicSearchBar from "../../searchbar/PublicSearchbar";
 import { Link } from "react-router-dom";
 
 const SearchScreen = () => {
+	const apiKey = process.env.REACT_APP_API_KEY;
 	const [searchResults, setSearchResults] = useState([]);
 	const handleSearchResults = (results) => {
 		setSearchResults(results);
@@ -28,6 +33,14 @@ const SearchScreen = () => {
 						result.latitude,
 						result.longitude
 					);
+					const details = await getPlaceDetails(response.place_id);
+
+					// const photo = await getPlacePhoto(
+					// 	result.latitude,
+					// 	result.longitude
+					// );
+					console.log(details);
+					// console.log(photo);
 					newResponses.push(response);
 				} else {
 					newResponses.push("error");
@@ -55,8 +68,8 @@ const SearchScreen = () => {
 									rel="noopene"
 								>
 									<CardMedia
-										sx={{ height: 140 }}
-										image={court?.photos?.[0]?.getUrl()}
+										sx={{ width: 345, height: 140 }}
+										image={`https://maps.googleapis.com/maps/api/streetview?size=345x140&location=${court?.geometry.location.lat},${court?.geometry.location.lng}&key=${apiKey}`}
 										title="Tennis Court Image"
 									/>
 								</Link>
