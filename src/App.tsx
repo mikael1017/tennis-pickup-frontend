@@ -2,7 +2,7 @@ import "./App.css";
 import Home from "./pages/home/PublicHomeComponent";
 import Login from "./pages/login/LoginComponent";
 import Profile from "./pages/profile/ProfileComponent";
-import Search from "./pages/search/SearchComponent";
+import SearchScreen from "./pages/search/SearchScreen.js";
 import Details from "./pages/details/DetailComponent";
 import RegisterScreen from "./pages/register/RegisterScreen";
 import { Provider } from "react-redux";
@@ -25,7 +25,10 @@ function App() {
 					<div className="container">
 						<Routes>
 							<Route path="/*" element={<Home />} />
-							<Route path="/search/*" element={<Search />} />
+							<Route
+								path="/search/*"
+								element={<SearchScreen />}
+							/>
 							<Route path="/details/*" element={<Details />} />
 							<Route path="/login/*" element={<Login />} />
 							<Route path="/profile/*" element={<Profile />} />

@@ -2,43 +2,39 @@ import React, { useState } from "react";
 import { IconButton, TextField, Grid, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 import {
 	findCourtsByState,
 	findCourtsByZip,
 	findCourtsByCity,
 } from "../services/courts/courts-service";
 
-const PublicSearchBar = () => {
+const PublicSearchBar = ({ handleSearchResults }) => {
 	const [search, setSearch] = useState("");
-	const [result, setResult] = useState({});
+	// const [result, setResult] = useState({});
+	const navigate = useNavigate();
 
 	const handleKeyPress = async (e) => {
 		const zipCodeRegex = /^\d{5}$/; // matches 5-digit zip code
-		const cityRegex = /^[A-Za-z\s-]+$/;
 		let courts = {};
 		if (e.key === "Enter") {
 			const value = e.target.value;
+			// check if search input meet the zip code format
 			if (zipCodeRegex.test(value)) {
-				// console.log("zip code", value);
-				// search by zip code
 				try {
-					courts = findCourtsByZip(value);
+					courts = await findCourtsByZip(value);
 				} catch (err) {
 					console.log(err);
 				}
-			} else if (cityRegex.test(value)) {
-				// search by city
-				try {
-					courts = findCourtsByCity(value);
-				} catch (err) {
-					console.log(err);
-				}
+				handleSearchResults(courts);
 			} else {
-				console.log("Invalid search input", value);
+				let error = ["error"];
+				handleSearchResults(error);
+				console.log("not a zip code");
 			}
-			setResult(courts);
+			navigate(`/search/${search}`);
 		}
-		console.log("result", result);
 	};
 
 	return (
@@ -50,7 +46,7 @@ const PublicSearchBar = () => {
 					type="search"
 					variant="outlined"
 					size="medium"
-					placeholder="Search for courts to play by zip code or city, state"
+					placeholder="Search for courts to play by zip code"
 					fullWidth
 					onChange={(e) => setSearch(e.target.value)}
 					onKeyDown={handleKeyPress}
