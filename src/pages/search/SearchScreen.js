@@ -15,12 +15,10 @@ const SearchScreen = (courts) => {
 			const newResponses = [];
 			for (const result of searchResults) {
 				if (result !== "error") {
-					console.log(result);
 					const response = await getLocationInfo(
 						result.latitude,
 						result.longitude
 					);
-					console.log(response);
 					newResponses.push(response);
 				} else {
 					newResponses.push("error");
