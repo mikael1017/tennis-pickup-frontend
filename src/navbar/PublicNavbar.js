@@ -29,6 +29,7 @@ function PublicNavBar() {
 	}
 	const [anchorElNav, setAnchorElNav] = useState(null);
 	const [anchorElUser, setAnchorElUser] = useState(null);
+
 	const handleOpenNavMenu = (event) => {
 		setAnchorElNav(event.currentTarget);
 		console.log("handleOpenNavMenu");
@@ -58,7 +59,7 @@ function PublicNavBar() {
 		}
 	};
 	return (
-		<AppBar position="static">
+		<AppBar position="static" color="primary">
 			<Container maxWidth="xl">
 				<Toolbar disableGutters>
 					<AdbIcon

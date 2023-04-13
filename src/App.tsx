@@ -13,6 +13,19 @@ import userReducer from "./reducers/user-reducer";
 import CourtScreen from "./pages/court/CourtScreen";
 import PublicNavBar from "./navbar/PublicNavbar";
 import CurrentUserContext from "./components/CurrentUserContext";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+const theme = createTheme({
+	palette: {
+		primary: {
+			main: "#55EC55",
+		},
+
+		secondary: {
+			main: "#00e676",
+		},
+	},
+});
 
 function App() {
 	const store = configureStore({
@@ -24,37 +37,42 @@ function App() {
 	return (
 		<Provider store={store}>
 			<CurrentUserContext>
-				<div className="container-fluid">
-					<BrowserRouter>
-						<div className="container">
-							<PublicNavBar />
-							<Routes>
-								<Route path="/*" element={<Home />} />
-								<Route
-									path="/search/*"
-									element={<SearchScreen />}
-								/>
-								<Route
-									path="/details/*"
-									element={<Details />}
-								/>
-								<Route path="/login/*" element={<Login />} />
-								<Route
-									path="/profile/*"
-									element={<ProfileScreen />}
-								/>
-								<Route
-									path="/register/*"
-									element={<RegisterScreen />}
-								/>
-								<Route
-									path="/court/:courtId"
-									element={<CourtScreen />}
-								/>
-							</Routes>
-						</div>
-					</BrowserRouter>
-				</div>
+				<ThemeProvider theme={theme}>
+					<div className="container-fluid">
+						<BrowserRouter>
+							<div className="container">
+								<PublicNavBar />
+								<Routes>
+									<Route path="/*" element={<Home />} />
+									<Route
+										path="/search/*"
+										element={<SearchScreen />}
+									/>
+									<Route
+										path="/details/*"
+										element={<Details />}
+									/>
+									<Route
+										path="/login/*"
+										element={<Login />}
+									/>
+									<Route
+										path="/profile/*"
+										element={<ProfileScreen />}
+									/>
+									<Route
+										path="/register/*"
+										element={<RegisterScreen />}
+									/>
+									<Route
+										path="/court/:courtId"
+										element={<CourtScreen />}
+									/>
+								</Routes>
+							</div>
+						</BrowserRouter>
+					</div>
+				</ThemeProvider>
 			</CurrentUserContext>
 		</Provider>
 	);

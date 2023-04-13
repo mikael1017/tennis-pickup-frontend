@@ -14,7 +14,7 @@ import {
 	findCourtsByState,
 	findCourtsByZip,
 	findCourtsByCity,
-} from "../services/courts/courts-service";
+} from "../services/search/search-service";
 
 const PublicSearchBar = ({ handleSearchResults }) => {
 	const [search, setSearch] = useState("");

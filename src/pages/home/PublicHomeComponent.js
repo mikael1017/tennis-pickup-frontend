@@ -35,7 +35,7 @@ const PublicHomeComponent = () => {
 								variant="h4"
 								gutterBottom
 								style={{
-									color: "lightgreen",
+									color: "#55EC55",
 									textAlign: "center",
 									fontWeight: "bold",
 								}}
@@ -53,8 +53,8 @@ const PublicHomeComponent = () => {
 									variant="contained"
 									color="primary"
 									style={{
-										color: "#fff",
-										backgroundColor: "#2E8B57",
+										color: "black",
+										backgroundColor: "#55EC55",
 									}}
 									onClick={() => {
 										navigate("/search");

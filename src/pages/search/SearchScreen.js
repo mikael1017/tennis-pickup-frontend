@@ -41,7 +41,7 @@ const SearchScreen = () => {
 					// 	result.latitude,
 					// 	result.longitude
 					// );
-					console.log(details);
+					// console.log(details);
 					// console.log(photo);
 					newResponses.push(response);
 				} else {
