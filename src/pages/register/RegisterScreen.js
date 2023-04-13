@@ -6,6 +6,7 @@ import { registerThunk } from "../../services/users/users-thunk";
 const RegisterScreen = () => {
 	// const { currentUser } = useSelector((state) => state.users);
 	const [username, setUsername] = useState("");
+	const [name, setName] = useState("");
 	const [password, setPassword] = useState("");
 	const [role, setRole] = useState("user");
 	const [email, setEmail] = useState("");
@@ -21,6 +22,7 @@ const RegisterScreen = () => {
 				registerThunk({
 					username,
 					password,
+					name,
 					role,
 					email,
 					phoneNumber,
@@ -59,16 +61,17 @@ const RegisterScreen = () => {
 				/>
 			</div>
 			<div className="form-group">
-				<label>Password Validation</label>
+				<label>name</label>
 				<input
-					type="password"
+					type="text"
 					className="form-control"
-					value={password}
+					value={name}
 					onChange={(e) => {
-						setPassword(e.target.value);
+						setName(e.target.value);
 					}}
 				/>
 			</div>
+
 			<div className="form-group">
 				<label>Role</label>
 				<select

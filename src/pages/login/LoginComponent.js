@@ -9,9 +9,9 @@ function LoginScreen() {
 	const [password, setPassword] = useState("");
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const login = () => {
+	const handleLogin = async () => {
 		try {
-			dispatch(loginThunk({ username, password }));
+			await dispatch(loginThunk({ username, password }));
 			navigate("/profile");
 		} catch (err) {
 			console.log(err);
@@ -42,17 +42,9 @@ function LoginScreen() {
 					}}
 				/>
 			</div>
-			<button onClick={login} className="btn btn-primary">
+			<button onClick={handleLogin} className="btn btn-primary">
 				Login
 			</button>
-			<div>
-				{currentUser && (
-					<div>
-						<h2>{currentUser.username}</h2>
-						<h2>{currentUser.password}</h2>
-					</div>
-				)}
-			</div>
 		</div>
 	);
 }

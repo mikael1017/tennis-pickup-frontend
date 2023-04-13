@@ -10,36 +10,42 @@ export const findAllUsers = async () => {
 	return response.data;
 };
 
-export const findUserByUsername = (username) => {
-	return axios
+export const findUserByUsername = async (username) => {
+	return await axios
 		.get(`${USERS_API_URL}/${username}`)
 		.then((response) => response.data);
 };
 
-export const createUser = (user) => {
-	return axios.post(USERS_API_URL, user);
+export const createUser = async (user) => {
+	return await axios.post(USERS_API_URL, user);
 };
 
-export const updateUser = (newUser) => {
-	return axios.put(`${USERS_API_URL}/${newUser.id}`, newUser);
+export const updateUser = async (newUser) => {
+	return await axios.put(`${USERS_API_URL}/${newUser.id}`, newUser);
 };
 
-export const deleteUser = (username) => {
-	return axios.delete(`${USERS_API_URL}/${username}`);
+export const deleteUser = async (username) => {
+	return await axios.delete(`${USERS_API_URL}/${username}`);
 };
 
-export const login = (user) => {
-	return api.post(`${USERS_API_URL}/login`, user);
+export const login = async ({ username, password }) => {
+	const response = await api.post(`${USERS_API_URL}/login`, {
+		username,
+		password,
+	});
+	const user = response.data;
+	return user;
+	// return await api.post(`${USERS_API_URL}/login`, user);
 };
 
-export const logout = () => {
-	return api.post(`${USERS_API_URL}/logout`);
+export const logout = async () => {
+	return await api.post(`${USERS_API_URL}/logout`);
 };
 
-export const register = (user) => {
-	return api.post(`${USERS_API_URL}/register`, user);
+export const register = async (user) => {
+	return await api.post(`${USERS_API_URL}/register`, user);
 };
 
-export const profile = () => {
-	return api.get(`${USERS_API_URL}/profile`);
+export const profile = async () => {
+	return await api.get(`${USERS_API_URL}/profile`);
 };

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {
-	TextField,
 	Grid,
 	Container,
 	CardMedia,
@@ -8,20 +7,23 @@ import {
 	CardContent,
 	Typography,
 } from "@mui/material";
-import { styled } from "@mui/material/styles";
 import {
 	getLocationInfo,
 	getPlaceDetails,
 	// getPlacePhoto,
 } from "../../services/google/google-service";
 import PublicSearchBar from "../../searchbar/PublicSearchbar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SearchScreen = () => {
 	const apiKey = process.env.REACT_APP_API_KEY;
 	const [searchResults, setSearchResults] = useState([]);
+	const navigate = useNavigate();
 	const handleSearchResults = (results) => {
 		setSearchResults(results);
+	};
+	const handleCourtClick = (placeId) => {
+		navigate(`/court/${placeId}`);
 	};
 	const [courtResults, setCourtResults] = useState([]);
 	useEffect(() => {
@@ -50,29 +52,29 @@ const SearchScreen = () => {
 		};
 		getResponses();
 	}, [searchResults]);
-	console.log(courtResults);
+	// console.log(courtResults);
+	const cardMediaStyle = {
+		cursor: "pointer",
+	};
 
 	return (
 		<>
 			<PublicSearchBar handleSearchResults={handleSearchResults} />
+
 			<Container maxWidth="md" sx={{ mt: 4 }}>
 				<Grid container spacing={2}>
 					{courtResults.map((court) => (
 						<Grid item xs={12} sm={6} md={4} key={court?.place_id}>
 							<Card sx={{ maxWidth: 345, height: "100%" }}>
-								<Link
-									// Link to court club page
-									// make it so that the link is only clickable if the court is not an error
-									to={`/court/${court.place_id}`}
-									target="_blank"
-									rel="noopene"
-								>
-									<CardMedia
-										sx={{ width: 345, height: 140 }}
-										image={`https://maps.googleapis.com/maps/api/streetview?size=345x140&location=${court?.geometry.location.lat},${court?.geometry.location.lng}&key=${apiKey}`}
-										title="Tennis Court Image"
-									/>
-								</Link>
+								<CardMedia
+									style={cardMediaStyle}
+									onClick={() =>
+										handleCourtClick(court.place_id)
+									}
+									sx={{ width: 345, height: 140 }}
+									image={`https://maps.googleapis.com/maps/api/streetview?size=345x140&location=${court?.geometry.location.lat},${court?.geometry.location.lng}&key=${apiKey}`}
+									title="Tennis Court Image"
+								/>
 								<CardContent>
 									<Typography
 										gutterBottom

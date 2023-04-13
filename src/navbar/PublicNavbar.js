@@ -13,24 +13,27 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { useNavigate } from "react-router-dom";
-
-const pages = ["People", "Search", "My Courts"];
-const settings = ["Register", "Login"];
+import { useSelector } from "react-redux";
+import { logoutThunk } from "../services/users/users-thunk";
+import { useDispatch } from "react-redux";
+import { useState } from "react";
 
 function PublicNavBar() {
+	const pages = ["people", "search", "courts", "profile"];
+	let settings = ["register", "login"];
 	const navigate = useNavigate();
-	const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-		null
-	);
-	const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-		null
-	);
-
-	const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+	const dispatch = useDispatch();
+	const { currentUser } = useSelector((state) => state.user);
+	if (currentUser) {
+		settings = ["logout"];
+	}
+	const [anchorElNav, setAnchorElNav] = useState(null);
+	const [anchorElUser, setAnchorElUser] = useState(null);
+	const handleOpenNavMenu = (event) => {
 		setAnchorElNav(event.currentTarget);
 		console.log("handleOpenNavMenu");
 	};
-	const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+	const handleOpenUserMenu = (event) => {
 		setAnchorElUser(event.currentTarget);
 		console.log("handleOpenUserMenu");
 	};
@@ -46,10 +49,13 @@ function PublicNavBar() {
 		console.log("handleCloseUserMenu");
 	};
 
-	const handleNavClick = (page: string) => {
-		console.log("handleNavClick");
-		console.log(page);
-		navigate(page);
+	const handleNavClick = async (page) => {
+		if (page === "logout") {
+			await dispatch(logoutThunk());
+			navigate("/");
+		} else {
+			navigate(page);
+		}
 	};
 	return (
 		<AppBar position="static">
@@ -129,7 +135,7 @@ function PublicNavBar() {
 						variant="h5"
 						noWrap
 						component="a"
-						href=""
+						href="/"
 						sx={{
 							mr: 2,
 							display: { xs: "flex", md: "none" },

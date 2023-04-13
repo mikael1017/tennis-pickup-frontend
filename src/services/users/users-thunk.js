@@ -38,10 +38,13 @@ export const deleteUserThunk = createAsyncThunk(
 	}
 );
 
-export const loginThunk = createAsyncThunk("users/login", async (user) => {
-	const response = await userService.login(user);
-	return response.data;
-});
+export const loginThunk = createAsyncThunk(
+	"users/login",
+	async (credentials) => {
+		const response = await userService.login(credentials);
+		return response.data;
+	}
+);
 
 export const logoutThunk = createAsyncThunk("users/logout", async () => {
 	await userService.logout();
@@ -50,7 +53,7 @@ export const logoutThunk = createAsyncThunk("users/logout", async () => {
 export const registerThunk = createAsyncThunk(
 	"users/register",
 	async (user) => {
-		console.log("hello from registerThunk");
+		// console.log("hello from registerThunk");
 		const response = await userService.register(user);
 		return response.data;
 	}

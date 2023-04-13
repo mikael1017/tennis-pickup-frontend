@@ -1,5 +1,4 @@
 import axios from "axios";
-import { Court } from "../../models/Court";
 
 const API_BASE = process.env.REACT_APP_API_BASE;
 const COURTS_API = `${API_BASE}/courts`;
