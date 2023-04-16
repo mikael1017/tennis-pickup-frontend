@@ -19,7 +19,6 @@ import {
 const PublicSearchBar = ({ handleSearchResults }) => {
 	const [search, setSearch] = useState("");
 	const [error, setError] = useState(null);
-	const [loading, setLoading] = useState(false);
 	// const [result, setResult] = useState({});
 	const navigate = useNavigate();
 
@@ -30,20 +29,11 @@ const PublicSearchBar = ({ handleSearchResults }) => {
 			const value = e.target.value;
 			// check if search input meet the zip code format
 			if (zipCodeRegex.test(value)) {
-				setLoading(true);
-				try {
-					courts = await findCourtsByZip(value);
-					handleSearchResults(courts);
-					setError(null);
-				} catch (err) {
-					console.log(err);
-				}
-				setLoading(false);
+				navigate(`/search/${search}`);
 			} else {
 				setError("Please enter a valid zip code");
 				console.log("not a zip code");
 			}
-			navigate(`/search/${search}`);
 		}
 	};
 

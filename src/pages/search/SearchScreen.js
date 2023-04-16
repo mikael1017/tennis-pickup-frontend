@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import {
 	Grid,
 	Container,
@@ -14,44 +15,52 @@ import {
 } from "../../services/google/google-service";
 import PublicSearchBar from "../../searchbar/PublicSearchbar";
 import { Link, useNavigate } from "react-router-dom";
+import { findCourtsByZip } from "../../services/search/search-service";
 
 const SearchScreen = () => {
 	const apiKey = process.env.REACT_APP_API_KEY;
+	const { zipCode } = useParams();
 	const [searchResults, setSearchResults] = useState([]);
 	const navigate = useNavigate();
+	const [courtResults, setCourtResults] = useState([]);
+	const [loading, setLoading] = useState(false);
+
 	const handleSearchResults = (results) => {
 		setSearchResults(results);
+		navigate(`/search/${results}`);
 	};
 	const handleCourtClick = (placeId) => {
 		navigate(`/court/${placeId}`);
 	};
-	const [courtResults, setCourtResults] = useState([]);
+
 	useEffect(() => {
 		const getResponses = async () => {
+			// console.log(zipCode);
+
 			const newResponses = [];
-			for (const result of searchResults) {
+			setLoading(true);
+			const courts = await findCourtsByZip(zipCode);
+			// handleSearchResults(courts);
+
+			for (const result of courts) {
 				if (result !== "error") {
 					const response = await getLocationInfo(
 						result.latitude,
 						result.longitude
 					);
-					const details = await getPlaceDetails(response.place_id);
-
-					// const photo = await getPlacePhoto(
-					// 	result.latitude,
-					// 	result.longitude
-					// );
-					// console.log(details);
-					// console.log(photo);
 					newResponses.push(response);
 				} else {
 					newResponses.push("error");
 				}
 			}
+			setSearchResults(courts);
+			setLoading(false);
 			setCourtResults(newResponses);
 		};
-		getResponses();
-	}, [searchResults]);
+		if (zipCode) {
+			getResponses();
+		}
+	}, [zipCode]);
 	// console.log(courtResults);
 	const cardMediaStyle = {
 		cursor: "pointer",

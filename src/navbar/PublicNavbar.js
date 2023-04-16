@@ -11,7 +11,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
+import SportsTennisIcon from "@mui/icons-material/SportsTennis";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { logoutThunk } from "../services/users/users-thunk";
@@ -62,7 +62,7 @@ function PublicNavBar() {
 		<AppBar position="static" color="primary">
 			<Container maxWidth="xl">
 				<Toolbar disableGutters>
-					<AdbIcon
+					<SportsTennisIcon
 						sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
 					/>
 					<Typography
@@ -129,7 +129,7 @@ function PublicNavBar() {
 							))}
 						</Menu>
 					</Box>
-					<AdbIcon
+					<SportsTennisIcon
 						sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
 					/>
 					<Typography

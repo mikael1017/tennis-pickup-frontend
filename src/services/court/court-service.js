@@ -8,14 +8,13 @@ const api = axios.create({
 	withCredentials: true,
 });
 
-export const findCourtsByCity = async (city) => {
-	const response = await api.get(`${COURTS_API}/city/${city}`);
-	const courts = response.data;
-	return courts;
-};
-
 export const addFollowerToClub = async (clubId, followerId) => {
 	const follower = { followerId: followerId };
 	const response = await api.post(`${CLUBS_API}/${clubId}`, follower);
+	return response.data;
+};
+
+export const removeFollowerFromClub = async (clubId, followerId) => {
+	const response = await api.delete(`${CLUBS_API}/${clubId}/${followerId}`);
 	return response.data;
 };

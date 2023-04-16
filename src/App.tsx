@@ -7,7 +7,7 @@ import Details from "./pages/details/DetailComponent";
 import RegisterScreen from "./pages/register/RegisterScreen";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import { Routes, Route } from "react-router";
+import { Routes, Route } from "react-router-dom";
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./reducers/user-reducer";
 import CourtScreen from "./pages/court/CourtScreen";
@@ -45,7 +45,11 @@ function App() {
 								<Routes>
 									<Route path="/*" element={<Home />} />
 									<Route
-										path="/search/*"
+										path="/search/:zipCode"
+										element={<SearchScreen />}
+									/>
+									<Route
+										path="/search"
 										element={<SearchScreen />}
 									/>
 									<Route
