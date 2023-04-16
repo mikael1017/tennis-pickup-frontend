@@ -23,7 +23,7 @@ function PublicNavBar() {
 	let settings = ["register", "login"];
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const { currentUser } = useSelector((state) => state.user);
+	const { currentUser } = useSelector((state) => state.users);
 	if (currentUser) {
 		settings = ["logout"];
 	}

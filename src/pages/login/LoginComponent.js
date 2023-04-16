@@ -4,15 +4,17 @@ import { useNavigate } from "react-router";
 import { loginThunk } from "../../services/users/users-thunk";
 
 function LoginScreen() {
-	const { currentUser } = useSelector((state) => state.user);
+	const { currentUser } = useSelector((state) => state.users);
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const handleLogin = async () => {
 		try {
-			await dispatch(loginThunk({ username, password }));
-			navigate("/profile");
+			const response = await dispatch(loginThunk({ username, password }));
+			const user = response.payload;
+			console.log(user);
+			navigate(`/profile/${user.username}`);
 		} catch (err) {
 			console.log(err);
 		}

@@ -10,7 +10,6 @@ const apiKey = process.env.REACT_APP_API_KEY;
 // loader.load().then(async () => {
 // 	const { Map } = await google.maps.importLibrary("maps");
 // });
-
 export const getLocationInfo = async (latitude, longitude) => {
 	// this returns null
 	// console.log(GOOGLE_API_KEY);

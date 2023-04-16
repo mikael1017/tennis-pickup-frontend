@@ -54,9 +54,9 @@ const userSlice = createSlice({
 		},
 		[findUserByUsernameThunk.fulfilled]: (state, action) => {
 			state.loading = false;
-			state.currentUser = action.payload;
 		},
 		[loginThunk.fulfilled]: (state, action) => {
+			console.log(action.payload);
 			state.currentUser = action.payload;
 		},
 		[logoutThunk.fulfilled]: (state, action) => {

@@ -30,7 +30,7 @@ const theme = createTheme({
 function App() {
 	const store = configureStore({
 		reducer: {
-			user: userReducer,
+			users: userReducer,
 		},
 	});
 
@@ -61,7 +61,11 @@ function App() {
 										element={<Login />}
 									/>
 									<Route
-										path="/profile/*"
+										path="/profile/:userId"
+										element={<ProfileScreen />}
+									/>
+									<Route
+										path="/profile"
 										element={<ProfileScreen />}
 									/>
 									<Route

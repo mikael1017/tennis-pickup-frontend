@@ -38,7 +38,6 @@ const SearchScreen = () => {
 			// console.log(zipCode);
 
 			const newResponses = [];
-			setLoading(true);
 			const courts = await findCourtsByZip(zipCode);
 			// handleSearchResults(courts);
 
@@ -54,7 +53,6 @@ const SearchScreen = () => {
 				}
 			}
 			setSearchResults(courts);
-			setLoading(false);
 			setCourtResults(newResponses);
 		};
 		if (zipCode) {

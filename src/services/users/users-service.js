@@ -11,7 +11,7 @@ export const findAllUsers = async () => {
 };
 
 export const findUserByUsername = async (username) => {
-	return await axios
+	return await api
 		.get(`${USERS_API_URL}/${username}`)
 		.then((response) => response.data);
 };
@@ -33,8 +33,8 @@ export const login = async ({ username, password }) => {
 		username,
 		password,
 	});
-	const user = response.data;
-	return user;
+	console.log(response);
+	return response;
 	// return await api.post(`${USERS_API_URL}/login`, user);
 };
 

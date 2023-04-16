@@ -1,14 +1,17 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { updateUserThunk } from "../../services/users/users-thunk";
+import { findUserByUsername } from "../../services/users/users-service";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { profileThunk, logoutThunk } from "../../services/users/users-thunk";
+import { useParams } from "react-router-dom";
 
 const ProfileScreen = () => {
-	const { currentUser } = useSelector((state) => state.user);
+	const { currentUser } = useSelector((state) => state.users);
 	const [profile, setProfile] = useState(currentUser);
+	const { userId } = useParams();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const labels = [
@@ -26,25 +29,42 @@ const ProfileScreen = () => {
 	const save = () => {
 		dispatch(updateUserThunk(profile));
 	};
-	useEffect(() => {
-		const payload = async () => {
-			await dispatch(profileThunk());
-		};
-		setProfile(payload);
-	}, []);
 
-	// console.log(profile);
+	const fetchProfile = async () => {
+		if (userId) {
+			const user = await findUserByUsername(userId);
+			setProfile(user);
+			return;
+		}
+		const response = await dispatch(profileThunk());
+		setProfile(response.payload);
+	};
+	useEffect(() => {
+		// if (currentUser) {
+		// 	navigate(`/profile/${currentUser.username}`);
+		// }
+		fetchProfile();
+	}, [userId]);
+
 	return (
 		<div>
 			<h1>Profile Screen</h1>
-			{currentUser && (
+			<div>
+				{currentUser && (
+					<div>
+						<h2>Welcome {currentUser.username}</h2>
+					</div>
+				)}
+			</div>
+			{currentUser && profile && (
 				<div>
 					{labels.map(({ name, value }) => (
 						<div key={value}>
 							<label>{name}</label>
 							<input
+								disabled={currentUser.username !== userId}
 								type="text"
-								value={currentUser[value]}
+								value={profile[value]}
 								onChange={(event) =>
 									handleInputChange(event, value)
 								}
