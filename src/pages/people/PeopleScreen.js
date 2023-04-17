@@ -1,4 +1,4 @@
-import { Grid, Paper, Avatar, Typography } from "@mui/material";
+import { Grid, Paper, Avatar, Typography, Button } from "@mui/material";
 import React from "react";
 import { useState, useEffect } from "react";
 import { findAllUsers } from "../../services/users/users-service";
@@ -26,7 +26,18 @@ const PeopleScreen = () => {
 	return (
 		<>
 			{!currentUser && (
-				<h1> You must be logged in to see other members</h1>
+				<>
+					<h1> You must be a member in order to see other people</h1>
+					<Button
+						onClick={() => {
+							navigate("/register");
+						}}
+						variant="contained"
+						color="secondary"
+					>
+						Click here to become a member
+					</Button>
+				</>
 			)}
 			{currentUser && (
 				<Grid container spacing={2}>
@@ -45,7 +56,7 @@ const PeopleScreen = () => {
 							<Paper sx={{ p: 5 }}>
 								<Avatar
 									alt={user.username}
-									src={user.photoURL}
+									src={user.profileImage}
 									sx={{ width: 64, height: 64, mb: 2 }}
 								/>
 								<Typography variant="h4" gutterBottom>

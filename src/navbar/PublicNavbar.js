@@ -32,25 +32,26 @@ function PublicNavBar() {
 
 	const handleOpenNavMenu = (event) => {
 		setAnchorElNav(event.currentTarget);
-		console.log("handleOpenNavMenu");
+		// console.log("handleOpenNavMenu");
 	};
 	const handleOpenUserMenu = (event) => {
 		setAnchorElUser(event.currentTarget);
-		console.log("handleOpenUserMenu");
+		// console.log("handleOpenUserMenu");
 	};
 
 	const handleCloseNavMenu = () => {
 		setAnchorElNav(null);
 
-		console.log("handleCloseNavMenu");
+		// console.log("handleCloseNavMenu");
 	};
 
 	const handleCloseUserMenu = () => {
 		setAnchorElUser(null);
-		console.log("handleCloseUserMenu");
+		// console.log("handleCloseUserMenu");
 	};
 
 	const handleNavClick = async (page) => {
+		handleCloseNavMenu();
 		if (page === "logout") {
 			await dispatch(logoutThunk());
 			navigate("/");
@@ -176,7 +177,7 @@ function PublicNavBar() {
 					<Box
 						sx={{
 							flexGrow: 1,
-							display: { xs: "none", md: "flex" },
+							display: { xs: "flex" },
 						}}
 					>
 						{settings.map((setting) => (

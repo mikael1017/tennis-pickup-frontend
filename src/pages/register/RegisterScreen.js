@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { registerThunk } from "../../services/users/users-thunk";
+import { Button } from "@mui/material";
+// import { toBase64 } from "file-base64";
+import ReactFileReader from "react-file-reader";
 
 const RegisterScreen = () => {
 	// const { currentUser } = useSelector((state) => state.users);
@@ -13,10 +16,17 @@ const RegisterScreen = () => {
 	const [phoneNumber, setPhoneNumber] = useState("");
 	const [city, setCity] = useState("");
 	const [skillLevel, setSkillLevel] = useState("");
-	const [profileImage, setProfileImage] = useState(null);
+	const [profileImage, setProfileImage] = useState("");
 
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+
+	const handleFiles = (files) => {
+		// console.log(files.base64);
+		setProfileImage(files.base64);
+
+		console.log(profileImage);
+	};
 	const register = () => {
 		try {
 			dispatch(
@@ -29,10 +39,7 @@ const RegisterScreen = () => {
 					phoneNumber,
 					city,
 					skillLevel,
-					profileImage: {
-						data: profileImage.buffer,
-						contentType: profileImage.type,
-					},
+					profileImage,
 				})
 			);
 			navigate("/");
@@ -44,14 +51,16 @@ const RegisterScreen = () => {
 		<div>
 			<h1>Register</h1>
 			<div className="form-group">
-				<label>Profile Picture</label>
-				<input
-					type="file"
-					className="form-control-file"
-					onChange={(e) => {
-						setProfileImage(e.target.files[0]);
-					}}
-				/>
+				<ReactFileReader
+					fileTypes={[".jpg", ".png", ".jpeg"]}
+					base64={true}
+					multipleFiles={false}
+					handleFiles={handleFiles}
+				>
+					<Button variant="contained" color="primary">
+						Upload profile picture
+					</Button>
+				</ReactFileReader>
 			</div>
 			<div className="form-group">
 				<label>Username</label>
@@ -148,9 +157,18 @@ const RegisterScreen = () => {
 				/>
 			</div>
 
-			<button onClick={register} className="btn btn-primary">
+			<Button onClick={register} variant="contained" color="secondary">
 				Register
-			</button>
+			</Button>
+			<Button
+				onClick={() => {
+					navigate("/");
+				}}
+				variant="contained"
+				color="error"
+			>
+				Cancel
+			</Button>
 			{/* <div>
 				{currentUser && (
 					<div>
@@ -158,7 +176,7 @@ const RegisterScreen = () => {
 						<h2>{currentUser.password}</h2>
 					</div>
 				)}
-			</div> */}
+			// </div> */}
 		</div>
 	);
 };

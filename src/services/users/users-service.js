@@ -7,8 +7,8 @@ const api = axios.create({
 
 export const findAllUsers = async () => {
 	const response = await axios.get(USERS_API_URL);
-	console.log(response);
-	console.log("hello");
+	// console.log(response);
+	// console.log("hello");
 	return response.data;
 };
 
@@ -23,7 +23,7 @@ export const createUser = async (user) => {
 };
 
 export const updateUser = async (newUser) => {
-	return await axios.put(`${USERS_API_URL}/${newUser.id}`, newUser);
+	return await axios.put(`${USERS_API_URL}/${newUser._id}`, newUser);
 };
 
 export const deleteUser = async (username) => {

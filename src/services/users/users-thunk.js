@@ -54,6 +54,7 @@ export const registerThunk = createAsyncThunk(
 	"users/register",
 	async (user) => {
 		// console.log("hello from registerThunk");
+		console.log(user);
 		const response = await userService.register(user);
 		return response.data;
 	}
