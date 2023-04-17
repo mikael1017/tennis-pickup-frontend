@@ -54,6 +54,12 @@ function PublicNavBar() {
 		if (page === "logout") {
 			await dispatch(logoutThunk());
 			navigate("/");
+		} else if (page === "profile") {
+			if (currentUser) {
+				navigate(`/profile/${currentUser.username}`);
+			} else {
+				navigate("/profile");
+			}
 		} else {
 			navigate(page);
 		}

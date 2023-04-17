@@ -7,6 +7,8 @@ const api = axios.create({
 
 export const findAllUsers = async () => {
 	const response = await axios.get(USERS_API_URL);
+	console.log(response);
+	console.log("hello");
 	return response.data;
 };
 

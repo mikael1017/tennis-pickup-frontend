@@ -8,14 +8,14 @@ const RegisterScreen = () => {
 	const [username, setUsername] = useState("");
 	const [name, setName] = useState("");
 	const [password, setPassword] = useState("");
-	const [role, setRole] = useState("user");
+	const [role, setRole] = useState("player");
 	const [email, setEmail] = useState("");
 	const [phoneNumber, setPhoneNumber] = useState("");
 	const [city, setCity] = useState("");
 	const [skillLevel, setSkillLevel] = useState("");
 
 	const dispatch = useDispatch();
-	// const navigate = useNavigate();
+	const navigate = useNavigate();
 	const register = () => {
 		try {
 			dispatch(
@@ -30,7 +30,7 @@ const RegisterScreen = () => {
 					skillLevel,
 				})
 			);
-			// navigate("/profile");
+			navigate("/login");
 		} catch (err) {
 			console.log(err);
 		}
@@ -81,7 +81,7 @@ const RegisterScreen = () => {
 						setRole(e.target.value);
 					}}
 				>
-					<option value="user">User</option>
+					<option value="player">Player</option>
 					<option value="admin">Admin</option>
 					<option value="organization">Organization</option>
 					<option value="coach">Coach</option>

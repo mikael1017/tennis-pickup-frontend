@@ -13,6 +13,7 @@ import userReducer from "./reducers/user-reducer";
 import CourtScreen from "./pages/court/CourtScreen";
 import PublicNavBar from "./navbar/PublicNavbar";
 import CurrentUserContext from "./components/CurrentUserContext";
+import PeopleScreen from "./pages/people/PeopleScreen";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const theme = createTheme({
@@ -75,6 +76,10 @@ function App() {
 									<Route
 										path="/court/:courtId"
 										element={<CourtScreen />}
+									/>
+									<Route
+										path="/people"
+										element={<PeopleScreen />}
 									/>
 								</Routes>
 							</div>
