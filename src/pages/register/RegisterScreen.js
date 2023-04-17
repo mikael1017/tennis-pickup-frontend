@@ -13,6 +13,7 @@ const RegisterScreen = () => {
 	const [phoneNumber, setPhoneNumber] = useState("");
 	const [city, setCity] = useState("");
 	const [skillLevel, setSkillLevel] = useState("");
+	const [profileImage, setProfileImage] = useState(null);
 
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -28,9 +29,13 @@ const RegisterScreen = () => {
 					phoneNumber,
 					city,
 					skillLevel,
+					profileImage: {
+						data: profileImage.buffer,
+						contentType: profileImage.type,
+					},
 				})
 			);
-			navigate("/login");
+			navigate("/");
 		} catch (err) {
 			console.log(err);
 		}
@@ -38,6 +43,16 @@ const RegisterScreen = () => {
 	return (
 		<div>
 			<h1>Register</h1>
+			<div className="form-group">
+				<label>Profile Picture</label>
+				<input
+					type="file"
+					className="form-control-file"
+					onChange={(e) => {
+						setProfileImage(e.target.files[0]);
+					}}
+				/>
+			</div>
 			<div className="form-group">
 				<label>Username</label>
 				<input

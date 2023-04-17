@@ -13,10 +13,10 @@ function LoginScreen() {
 		try {
 			const response = await dispatch(loginThunk({ username, password }));
 			const user = response.payload;
-			console.log(user);
+			// console.log(user);
 			navigate(`/profile/${user.username}`);
 		} catch (err) {
-			console.log(err);
+			// console.log(err);
 		}
 	};
 	return (

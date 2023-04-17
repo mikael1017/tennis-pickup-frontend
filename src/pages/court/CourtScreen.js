@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 
 const CourtScreen = () => {
 	const { courtId } = useParams();
-	const { currentUser } = useSelector((state) => state.user);
+	const { currentUser } = useSelector((state) => state.users);
 	const [courtDetails, setCourtDetails] = useState({});
 	useEffect(() => {
 		// console.log(courtId);
