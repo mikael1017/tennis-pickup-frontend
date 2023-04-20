@@ -19,6 +19,7 @@ import {
 import { getCourtFollowers } from "../../services/court/court-service";
 import { findAllUsersThunk } from "../../services/users/users-thunk";
 import ProfileListItem from "../../components/ProfileListItem";
+import { removeFollowerFromClub } from "../../services/court/court-service";
 
 const apiKey = process.env.REACT_APP_API_KEY;
 const CourtScreen = () => {
@@ -41,18 +42,40 @@ const CourtScreen = () => {
 		};
 		getCourtDetails();
 		dispatch(findAllUsersThunk());
-	}, [courtId]);
+	}, [dispatch]);
 	// console.log(courtDetails.geometry);
 
-	const handleFollowClick = () => {
-		addFollowerToClub(courtId, currentUser._id);
+	const handleFollowClick = async () => {
 		if (!currentUser.followingCourts.includes(courtId)) {
 			const newFollowingList = [...currentUser.followingCourts, courtId];
 			const newProfile = {
 				...currentUser,
 				followingCourts: newFollowingList,
 			};
-			dispatch(updateUserThunk(newProfile));
+			console.log(currentUser._id);
+			const newCourtFollowers = [currentUser._id];
+			setFollowingList(newCourtFollowers);
+
+			await dispatch(updateUserThunk(newProfile));
+			await addFollowerToClub(courtId, currentUser._id);
+		}
+	};
+
+	const handleUnfollowClick = async () => {
+		if (currentUser.followingCourts.includes(courtId)) {
+			const newFollowingList = currentUser.followingCourts.filter(
+				(court) => court !== courtId
+			);
+			const newProfile = {
+				...currentUser,
+				followingCourts: newFollowingList,
+			};
+			const newCourtFollowers = followingList.filter(
+				(user) => user !== currentUser._id
+			);
+			setFollowingList(newCourtFollowers);
+			await dispatch(updateUserThunk(newProfile));
+			await removeFollowerFromClub(courtId, currentUser._id);
 		}
 	};
 	return (
@@ -95,7 +118,7 @@ const CourtScreen = () => {
 					</Grid>
 				</Container>
 			)}
-			{currentUser && (
+			{currentUser && !followingList.includes(currentUser._id) && (
 				<Button
 					onClick={handleFollowClick}
 					variant="contained"
@@ -104,13 +127,21 @@ const CourtScreen = () => {
 					Follow this club
 				</Button>
 			)}
+			{currentUser && followingList.includes(currentUser._id) && (
+				<Button
+					onClick={handleUnfollowClick}
+					variant="contained"
+					color="error"
+				>
+					Unfollow this club
+				</Button>
+			)}
 
 			<h1>People following this court</h1>
 			{currentUser && (
 				<List sx={{ backgroundColor: "#dbdbc8" }}>
 					{followingList &&
 						users.map((user) => {
-							// console.log(user);
 							if (followingList.includes(user._id)) {
 								return (
 									<>
@@ -121,6 +152,7 @@ const CourtScreen = () => {
 									</>
 								);
 							}
+							// console.log(user);
 						})}
 				</List>
 			)}

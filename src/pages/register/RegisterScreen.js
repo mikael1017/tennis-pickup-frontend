@@ -237,6 +237,7 @@ const RegisterScreen = () => {
 								onChange={(e) => {
 									setCoachLicense(e.target.value);
 								}}
+								required
 							>
 								<MenuItem value="USPTA">USPTA</MenuItem>
 								<MenuItem value="USPTR">USPTR</MenuItem>
