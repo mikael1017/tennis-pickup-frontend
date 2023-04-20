@@ -18,3 +18,8 @@ export const removeFollowerFromClub = async (clubId, followerId) => {
 	const response = await api.delete(`${CLUBS_API}/${clubId}/${followerId}`);
 	return response.data;
 };
+
+export const getCourtFollowers = async (clubId) => {
+	const response = await api.get(`${CLUBS_API}/${clubId}`);
+	return response.data;
+};

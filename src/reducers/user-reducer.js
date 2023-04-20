@@ -28,6 +28,8 @@ const userSlice = createSlice({
 			state.users = state.users.map((user) =>
 				user.id === action.payload.id ? action.payload : user
 			);
+			console.log(action.payload);
+			state.currentUser = action.payload;
 		},
 		[createUserThunk.fulfilled]: (state, action) => {
 			state.users.push(action.payload);
@@ -56,7 +58,6 @@ const userSlice = createSlice({
 			state.loading = false;
 		},
 		[loginThunk.fulfilled]: (state, action) => {
-			console.log(action.payload);
 			state.currentUser = action.payload;
 		},
 		[logoutThunk.fulfilled]: (state, action) => {

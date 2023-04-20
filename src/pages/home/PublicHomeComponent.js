@@ -1,19 +1,62 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PublicNavBar from "../../navbar/PublicNavbar";
 import PublicSearchBar from "../../searchbar/PublicSearchbar";
 import SearchScreen from "../search/SearchScreen";
-import { Grid, Typography, Button } from "@mui/material";
+import FollowingPeopleList from "../../followingList/FollowingPeopleList";
+import FollowingCourtList from "../../followingList/FollowingCourtList";
+import {
+	Grid,
+	Typography,
+	Avatar,
+	Button,
+	List,
+	ListItem,
+	ListItemText,
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
 import posterImage from "../../images/main-poster.jpeg";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { findAllUsersThunk } from "../../services/users/users-thunk";
+import CourtsScreen from "../court/CourtsScreen";
 
 const PublicHomeComponent = () => {
 	const navigate = useNavigate();
-	const { currentUser } = useSelector((state) => state.users);
+	const { currentUser, users } = useSelector((state) => state.users);
+	const dispatch = useDispatch();
+	useEffect(() => {
+		if (currentUser) {
+			// setFollowingList(currentUser.followingPeople);
+			// console.log(currentUser);
+		}
+		dispatch(findAllUsersThunk());
+	}, [currentUser]);
 	return (
 		<>
-			{currentUser && <h2>Welcome back {currentUser.username}</h2>}
+			{currentUser && (
+				<Grid
+					container
+					alignItems="center"
+					justifyContent="center"
+					spacing={2}
+				>
+					<Grid item xs={7}>
+						<Typography sx={{ my: 2 }} variant="h4">
+							Welcome back {currentUser.name}
+						</Typography>
+					</Grid>
+					<Grid item xs={7}>
+						<FollowingPeopleList />
+					</Grid>
+					<Grid item xs={7}>
+						<Typography sx={{ my: 2 }} variant="h5">
+							Your following Courts
+						</Typography>
+						<CourtsScreen />
+					</Grid>
+				</Grid>
+			)}
 			{!currentUser && (
 				<Grid container alignItems="center" justifyContent="center">
 					<Grid item xs={12} sm={8}>
@@ -39,8 +82,8 @@ const PublicHomeComponent = () => {
 									<Typography
 										variant="h4"
 										gutterBottom
-										style={{
-											color: "#55EC55",
+										color="secondary"
+										sx={{
 											textAlign: "center",
 											fontWeight: "bold",
 										}}
@@ -57,10 +100,9 @@ const PublicHomeComponent = () => {
 									>
 										<Button
 											variant="contained"
-											color="primary"
+											color="secondary"
 											style={{
 												color: "black",
-												backgroundColor: "#55EC55",
 											}}
 											onClick={() => {
 												navigate("/search");

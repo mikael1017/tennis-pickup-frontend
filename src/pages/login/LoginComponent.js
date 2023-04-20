@@ -2,6 +2,15 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { loginThunk } from "../../services/users/users-thunk";
+import {
+	Grid,
+	Button,
+	FormControl,
+	FormGroup,
+	InputLabel,
+	TextField,
+	Typography,
+} from "@mui/material";
 
 function LoginScreen() {
 	const { currentUser } = useSelector((state) => state.users);
@@ -13,41 +22,48 @@ function LoginScreen() {
 		try {
 			const response = await dispatch(loginThunk({ username, password }));
 			const user = response.payload;
+			localStorage.setItem("user", JSON.stringify(user));
 			// console.log(user);
-			navigate(`/profile/${user.username}`);
+			navigate(`/`);
 		} catch (err) {
 			// console.log(err);
 		}
 	};
 	return (
-		<div>
-			<h1>Login</h1>
-			<div className="form-group">
-				<label>Username</label>
-				<input
-					type="text"
-					className="form-control"
-					value={username}
-					onChange={(e) => {
-						setUsername(e.target.value);
-					}}
-				/>
-			</div>
-			<div className="form-group">
-				<label>Password</label>
-				<input
-					type="password"
-					className="form-control"
-					value={password}
-					onChange={(e) => {
-						setPassword(e.target.value);
-					}}
-				/>
-			</div>
-			<button onClick={handleLogin} className="btn btn-primary">
-				Login
-			</button>
-		</div>
+		<Grid container spacing={2} alignItems="center" justifyContent="center">
+			<Grid item xs={8}>
+				<Typography sx={{ mt: 1 }} variant="h4">
+					Sign in
+				</Typography>
+				<FormGroup>
+					<FormControl sx={{ mt: 1 }}>
+						<InputLabel>Username</InputLabel>
+						<TextField
+							value={username}
+							onChange={(e) => {
+								setUsername(e.target.value);
+							}}
+						/>
+					</FormControl>
+					<FormControl sx={{ mt: 1 }}>
+						<InputLabel>Password</InputLabel>
+						<TextField
+							value={password}
+							onChange={(e) => {
+								setPassword(e.target.value);
+							}}
+						/>
+					</FormControl>
+					<Button
+						variant="contained"
+						onClick={handleLogin}
+						color="success"
+					>
+						Login
+					</Button>
+				</FormGroup>
+			</Grid>
+		</Grid>
 	);
 }
 

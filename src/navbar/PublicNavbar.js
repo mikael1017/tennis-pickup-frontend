@@ -19,13 +19,14 @@ import { useDispatch } from "react-redux";
 import { useState } from "react";
 
 function PublicNavBar() {
-	const pages = ["people", "search", "courts", "profile"];
-	let settings = ["register", "login"];
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const { currentUser } = useSelector((state) => state.users);
+	let pages = ["people", "search", "profile"];
+	let settings = ["register", "login"];
 	if (currentUser) {
 		settings = ["logout"];
+		pages = ["people", "search", "courts", "profile", "matches"];
 	}
 	const [anchorElNav, setAnchorElNav] = useState(null);
 	const [anchorElUser, setAnchorElUser] = useState(null);
@@ -167,7 +168,12 @@ function PublicNavBar() {
 							<Button
 								key={page}
 								onClick={() => handleNavClick(page)}
-								sx={{ my: 2, color: "white", display: "block" }}
+								sx={{
+									fontWeight: "bold",
+									my: 2,
+									color: "black",
+									display: "block",
+								}}
 							>
 								{page}
 							</Button>
@@ -184,7 +190,12 @@ function PublicNavBar() {
 							<Button
 								key={setting}
 								onClick={() => handleNavClick(setting)}
-								sx={{ my: 2, color: "white", display: "block" }}
+								sx={{
+									my: 2,
+									fontWeight: "bold",
+									color: "black",
+									display: "block",
+								}}
 							>
 								{setting}
 							</Button>

@@ -7,19 +7,29 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { profileThunk, logoutThunk } from "../../services/users/users-thunk";
 import { useParams } from "react-router-dom";
-import { Button } from "@mui/material";
+import { FormControl, FormGroup, TextField } from "@mui/material";
+import {
+	Button,
+	Container,
+	Grid,
+	Card,
+	CardMedia,
+	CardContent,
+	Typography,
+} from "@mui/material";
 
 const ProfileScreen = () => {
 	const { currentUser } = useSelector((state) => state.users);
-	const [profile, setProfile] = useState(currentUser);
+	const [profile, setProfile] = useState();
 	// const [profileImage, setProfileImage] = useState("");
 	const { userId } = useParams();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const labels = [
+		{ name: "Name", value: "name" },
 		{ name: "Username", value: "username" },
-		{ name: "Email", value: "email" },
 		{ name: "Password", value: "password" },
+		{ name: "Email", value: "email" },
 		{ name: "City", value: "city" },
 		{ name: "Phone Number", value: "phoneNumber" },
 		{ name: "Skill Level", value: "skillLevel" },
@@ -38,11 +48,18 @@ const ProfileScreen = () => {
 			const user = await findUserByUsername(userId);
 			setProfile(user);
 			return;
+		} else {
+			const response = await dispatch(profileThunk());
+			setProfile(response.payload);
 		}
-		const response = await dispatch(profileThunk());
-		setProfile(response.payload);
 	};
 
+	const handleMatchRequest = (username) => {
+		// send a request to the userId
+		// from currentUser
+		//
+		navigate(`/matchRequest/${username}`);
+	};
 	useEffect(() => {
 		fetchProfile();
 	}, [userId]);
@@ -65,40 +82,143 @@ const ProfileScreen = () => {
 					</>
 				)}
 				{currentUser && (
-					<div>
-						<h2>Welcome {currentUser.username}</h2>
-					</div>
+					<Grid
+						container
+						spacing={2}
+						alignItems="center"
+						justifyContent="center"
+					></Grid>
 				)}
 			</div>
-			{currentUser && profile && (
-				<div>
-					<div>
-						{/* i have to make a style of this  */}
-						<img alt="profile" src={profile.profileImage} />
-					</div>
-					{labels.map(({ name, value }) => (
-						<div key={value}>
-							<label>{name}</label>
-							<input
-								disabled={currentUser.username !== userId}
-								type="text"
-								value={profile[value]}
-								onChange={(event) =>
-									handleInputChange(event, value)
-								}
-							/>
+			{currentUser && currentUser.username === userId && profile && (
+				<Grid
+					container
+					spacing={2}
+					alignItems="center"
+					justifyContent="center"
+				>
+					<FormGroup>
+						<div>
+							{/* i have to make a style of this  */}
+							<img alt="profile" src={profile.profileImage} />
 						</div>
-					))}
-					<button onClick={save}>Save</button>
-					<button
-						onClick={() => {
-							dispatch(logoutThunk());
-							navigate("/");
-						}}
-					>
-						Logout
-					</button>
-				</div>
+						{labels.map(({ name, value }) => (
+							<FormControl key={value} sx={{ my: 2 }}>
+								<TextField
+									id="outlined-required"
+									disabled={value === "username"}
+									value={profile[value]}
+									label={name}
+									onChange={(event) =>
+										handleInputChange(event, value)
+									}
+								/>
+							</FormControl>
+						))}
+						<Button
+							variant="contained"
+							color="success"
+							onClick={save}
+						>
+							Save
+						</Button>
+						<Button
+							variant="contained"
+							color="error"
+							onClick={() => {
+								dispatch(logoutThunk());
+								navigate("/");
+							}}
+						>
+							Logout
+						</Button>
+					</FormGroup>
+				</Grid>
+			)}
+			{currentUser && currentUser.username !== userId && profile && (
+				<Container
+					maxWidth="md"
+					sx={{
+						mt: 4,
+						alignItem: "center",
+						justifyContent: "center",
+					}}
+				>
+					<Grid container spacing={2}>
+						<Grid
+							item
+							xs={12}
+							sm={12}
+							md={12}
+							key={profile.username}
+						>
+							<Card
+								sx={{
+									maxWidth: "600px",
+									height: "100%",
+								}}
+							>
+								<CardMedia
+									// style={cardMediaStyle}
+									sx={{
+										width: 600,
+										height: 400,
+									}}
+									image={profile.profileImage}
+									title="Tennis Court Image"
+								/>
+								<CardContent
+									sx={{
+										display: "flex",
+										flexDirection: "column",
+										alignItems: "center",
+									}}
+								>
+									<Typography
+										gutterBottom
+										variant="h5"
+										component="h2"
+									>
+										{profile.username}
+									</Typography>
+									<Typography
+										variant="body2"
+										color="textSecondary"
+										component="p"
+									>
+										{profile.role}
+									</Typography>
+									<Typography
+										variant="body2"
+										color="textSecondary"
+										component="p"
+									>
+										{profile.city}
+									</Typography>
+									<Typography
+										variant="body2"
+										color="textSecondary"
+										component="p"
+									>
+										{" NTRP rating - " + profile.skillLevel}
+									</Typography>
+									<br />
+									<Button
+										variant="contained"
+										color="secondary"
+										onClick={() => {
+											handleMatchRequest(
+												profile.username
+											);
+										}}
+									>
+										Send a match request
+									</Button>
+								</CardContent>
+							</Card>
+						</Grid>
+					</Grid>
+				</Container>
 			)}
 		</div>
 	);

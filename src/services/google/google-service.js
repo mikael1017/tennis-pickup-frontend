@@ -26,11 +26,12 @@ export const getLocationInfo = async (latitude, longitude) => {
 };
 
 export const getPlaceDetails = async (placeId) => {
-	const url = `https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=place_id=${placeId}&fields=name,geometry&key=${apiKey}`;
+	const API_BASE = process.env.REACT_APP_API_BASE;
+	const url = `https://maps.googleapis.com/maps/api/geocode/json?place_id=${placeId}&key=${apiKey}`;
+
 	try {
 		const response = await axios.get(url);
-		// console.log(response);
-		const result = response.data;
+		const result = response.data.results[0];
 		return result;
 	} catch (error) {
 		console.log(error);

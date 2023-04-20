@@ -15,15 +15,19 @@ import PublicNavBar from "./navbar/PublicNavbar";
 import CurrentUserContext from "./components/CurrentUserContext";
 import PeopleScreen from "./pages/people/PeopleScreen";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import MatchRequestScreen from "./pages/matchRequest/MatchRequestScreen";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import CourtsScreen from "./pages/court/CourtsScreen";
 
 const theme = createTheme({
 	palette: {
 		primary: {
-			main: "#55EC55",
+			main: "#79f281",
 		},
 
 		secondary: {
-			main: "#00e676",
+			main: "#15e823",
 		},
 	},
 });
@@ -36,58 +40,68 @@ function App() {
 	});
 
 	return (
-		<Provider store={store}>
-			<CurrentUserContext>
-				<ThemeProvider theme={theme}>
-					<div className="container-fluid">
-						<BrowserRouter>
-							<div className="container">
-								<PublicNavBar />
-								<Routes>
-									<Route path="/*" element={<Home />} />
-									<Route
-										path="/search/:zipCode"
-										element={<SearchScreen />}
-									/>
-									<Route
-										path="/search"
-										element={<SearchScreen />}
-									/>
-									<Route
-										path="/details/*"
-										element={<Details />}
-									/>
-									<Route
-										path="/login/*"
-										element={<Login />}
-									/>
-									<Route
-										path="/profile/:userId"
-										element={<ProfileScreen />}
-									/>
-									<Route
-										path="/profile"
-										element={<ProfileScreen />}
-									/>
-									<Route
-										path="/register/*"
-										element={<RegisterScreen />}
-									/>
-									<Route
-										path="/court/:courtId"
-										element={<CourtScreen />}
-									/>
-									<Route
-										path="/people"
-										element={<PeopleScreen />}
-									/>
-								</Routes>
-							</div>
-						</BrowserRouter>
-					</div>
-				</ThemeProvider>
-			</CurrentUserContext>
-		</Provider>
+		<LocalizationProvider dateAdapter={AdapterDayjs}>
+			<Provider store={store}>
+				<CurrentUserContext>
+					<ThemeProvider theme={theme}>
+						<div className="container-fluid">
+							<BrowserRouter>
+								<div className="container">
+									<PublicNavBar />
+									<Routes>
+										<Route path="/*" element={<Home />} />
+										<Route
+											path="/search/:zipCode"
+											element={<SearchScreen />}
+										/>
+										<Route
+											path="/search"
+											element={<SearchScreen />}
+										/>
+										<Route
+											path="/details/*"
+											element={<Details />}
+										/>
+										<Route
+											path="/login/*"
+											element={<Login />}
+										/>
+										<Route
+											path="/profile/:userId"
+											element={<ProfileScreen />}
+										/>
+										<Route
+											path="/profile"
+											element={<ProfileScreen />}
+										/>
+										<Route
+											path="/register/*"
+											element={<RegisterScreen />}
+										/>
+										<Route
+											path="/court/:courtId"
+											element={<CourtScreen />}
+										/>
+										<Route
+											path="/people"
+											element={<PeopleScreen />}
+										/>
+										<Route
+											path="/matchRequest/:username"
+											element={<MatchRequestScreen />}
+										/>
+										<Route
+											path="/courts"
+											element={<CourtsScreen />}
+										/>
+									</Routes>
+								</div>
+							</BrowserRouter>
+						</div>
+					</ThemeProvider>
+				</CurrentUserContext>
+			</Provider>
+		</LocalizationProvider>
 	);
 }
 

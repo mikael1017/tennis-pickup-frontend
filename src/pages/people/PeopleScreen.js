@@ -1,28 +1,61 @@
 import { Grid, Paper, Avatar, Typography, Button } from "@mui/material";
 import React from "react";
 import { useState, useEffect } from "react";
-import { findAllUsers } from "../../services/users/users-service";
+import { findAllUsersThunk } from "../../services/users/users-thunk";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
+import StarIcon from "@mui/icons-material/Star";
+import PeopleIcon from "@mui/icons-material/People";
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
+import { updateUserThunk } from "../../services/users/users-thunk";
+import { useDispatch } from "react-redux";
+import { profileThunk } from "../../services/users/users-thunk";
 
 const PeopleScreen = () => {
-	const [users, setUsers] = useState([]);
+	// const [users, setUsers] = useState([]);
 	const navigate = useNavigate();
-	const { currentUser } = useSelector((state) => state.users);
+	const { currentUser, users } = useSelector((state) => state.users);
+	const [profile, setProfile] = useState(currentUser);
 	const handleClickProfile = (username) => {
 		navigate(`/profile/${username}`);
 	};
-	const gridStyle = {
+	const [followingList, setFollowingList] = useState();
+	const dispatch = useDispatch();
+	const handleClickFollow = (userId) => {
+		const newFollowingList = [...followingList, userId];
+		setFollowingList(newFollowingList);
+		const newProfile = {
+			...currentUser,
+			followingPeople: newFollowingList,
+		};
+		dispatch(updateUserThunk(newProfile));
+	};
+	const handleClickUnfollow = (userId) => {
+		const newFollowingList = followingList.filter((id) => id !== userId);
+		setFollowingList(newFollowingList);
+		const newProfile = {
+			...currentUser,
+			followingPeople: newFollowingList,
+		};
+		dispatch(updateUserThunk(newProfile));
+	};
+
+	const clickableStyle = {
 		cursor: "pointer",
 	};
 
 	useEffect(() => {
-		const fetchUsers = async () => {
-			const users = await findAllUsers();
-			setUsers(users);
-		};
-		fetchUsers();
-	}, []);
+		if (currentUser) {
+			// setFollowingList(currentUser.followingPeople);
+			console.log(currentUser);
+			setProfile(currentUser);
+			setFollowingList(currentUser.followingPeople);
+		}
+		dispatch(findAllUsersThunk());
+	}, [currentUser]);
+
+	// console.log(currentUser);
+	// console.log(profile);
 	return (
 		<>
 			{!currentUser && (
@@ -40,20 +73,68 @@ const PeopleScreen = () => {
 				</>
 			)}
 			{currentUser && (
-				<Grid container spacing={2}>
+				<Grid
+					container
+					spacing={2}
+					alignItems="center"
+					justifyContent="center"
+				>
 					{users.map((user) => (
 						<Grid
 							item
 							xs={4}
-							md={4}
-							lg={4}
 							key={user._id}
-							style={gridStyle}
-							onClick={() => {
-								handleClickProfile(user.username);
-							}}
+							// alignItems="center"
+							// justifyContent="center"
+							// style={gridStyle}
+							// onClick={() => {
+							// 	handleClickProfile(user.username);
+							// }}
 						>
-							<Paper sx={{ p: 5 }}>
+							<Paper
+								sx={{
+									p: 5,
+									// display: "flex",
+									// justifyContent: "center",
+									flexDirection: "column",
+									// alignItems: "center",
+								}}
+							>
+								<div
+									sx={{
+										display: "flex",
+										justifyContent: "flex-end",
+									}}
+								>
+									{currentUser.followingPeople.includes(
+										user._id
+									) && (
+										<PeopleIcon
+											style={clickableStyle}
+											fontSize="large"
+											sx={{ float: "right" }}
+											color="secondary"
+											onClick={(e) => {
+												handleClickUnfollow(user._id);
+											}}
+										/>
+									)}
+									{!currentUser.followingPeople.includes(
+										user._id
+									) &&
+										currentUser._id !== user._id && (
+											<GroupAddIcon
+												style={clickableStyle}
+												key={user._id}
+												fontSize="large"
+												sx={{ float: "right" }}
+												color="inherit"
+												onClick={(e) => {
+													handleClickFollow(user._id);
+												}}
+											/>
+										)}
+								</div>
 								<Avatar
 									alt={user.username}
 									src={user.profileImage}
@@ -83,6 +164,18 @@ const PeopleScreen = () => {
 								>
 									{user.skillLevel}
 								</Typography>
+								<br />
+								<Button
+									color="secondary"
+									variant="contained"
+									onClick={() => {
+										handleClickProfile(user.username);
+									}}
+								>
+									{user.username === currentUser.username
+										? "My Profile"
+										: "Go to Profile"}
+								</Button>
 							</Paper>
 						</Grid>
 					))}
