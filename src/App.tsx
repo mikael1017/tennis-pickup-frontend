@@ -19,6 +19,7 @@ import MatchRequestScreen from "./pages/matchRequest/MatchRequestScreen";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import CourtsScreen from "./pages/court/CourtsScreen";
+import MatchesScreen from "./pages/matches/MatchesScreen";
 
 const theme = createTheme({
 	palette: {
@@ -93,6 +94,10 @@ function App() {
 										<Route
 											path="/courts"
 											element={<CourtsScreen />}
+										/>
+										<Route
+											path="/matches"
+											element={<MatchesScreen />}
 										/>
 									</Routes>
 								</div>

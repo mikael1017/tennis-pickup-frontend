@@ -11,24 +11,27 @@ import {
 	InputLabel,
 	Typography,
 	Grid,
+	TextField,
 } from "@mui/material";
 import { DatePicker, TimePicker } from "@mui/x-date-pickers";
 import { findUserByUsername } from "../../services/users/users-service";
 import { getPlaceDetails } from "../../services/google/google-service";
 import dayjs from "dayjs";
 import { createMatchRequest } from "../../services/matches/matches-service";
+import { useNavigate } from "react-router";
 
 const MatchRequestScreen = () => {
 	const { username } = useParams();
-	const [date, setDate] = useState(dayjs("2023-04-19T15:30"));
-	const [time, setTime] = useState(dayjs("2023-04-19T15:30"));
+	const [date, setDate] = useState(dayjs("2023-05-25T15:30"));
+	const [time, setTime] = useState(dayjs("2023-05-25T15:30"));
 	const [matchType, setMatchType] = useState();
 	const [skillLevel, setSkillLevel] = useState();
 	const [court, setCourt] = useState();
 	const [followingCourts, setFollowingCourts] = useState([]);
 	const { currentUser } = useSelector((state) => state.users);
+	const [lesson, setLesson] = useState("");
 	const [requestee, setRequestee] = useState();
-
+	const navigate = useNavigate();
 	useEffect(() => {
 		const getRequestee = async () => {
 			const user = await findUserByUsername(username);
@@ -50,17 +53,53 @@ const MatchRequestScreen = () => {
 		}
 	}, [currentUser]);
 
+	const handleDateChange = (date) => {
+		console.log(date.$d.getDay());
+		const day = date.$d.getDay();
+		const month = date.$d.getMonth();
+		const year = date.$d.getFullYear();
+		setDate(month + "/" + day + "/" + year);
+	};
+
+	const handleTimeChange = (time) => {
+		const hour = time.getHours();
+		const minute = time.getMinutes();
+		setTime(hour + ":" + minute);
+	};
+
 	const handleSubmit = () => {
 		if (currentUser && requestee) {
-			createMatchRequest({
-				requestedUserName: currentUser.username,
-				requesteeUserName: requestee.username,
-				date: date,
-				time: time,
-				matchType: matchType,
-				skillLevel: skillLevel,
-				court: court,
-			});
+			const newDate =
+				date.$d.getMonth() +
+				"/" +
+				date.$d.getDay() +
+				"/" +
+				date.$d.getFullYear();
+			const newTime = time.$d.getHours() + ":" + time.$d.getMinutes();
+			if (requestee.role === "player") {
+				createMatchRequest({
+					requestedUsername: currentUser.username,
+					requesteeUsername: requestee.username,
+					date: newDate,
+					time: newTime,
+					matchType: matchType,
+					skillLevel: skillLevel,
+					court: court,
+				});
+			} else if (requestee.role === "coach") {
+				createMatchRequest({
+					requestedUsername: currentUser.username,
+					requesteeUsername: requestee.username,
+					date: newDate,
+					time: newTime,
+					skillLevel: skillLevel,
+					court: court,
+					lesson: lesson,
+					isLesson: true,
+				});
+			}
+
+			navigate("/matches");
 		}
 		console.log("submitted");
 	};
@@ -77,13 +116,14 @@ const MatchRequestScreen = () => {
 				>
 					<FormGroup>
 						<Typography variant="h4" sx={{ my: 2 }}>
-							Match request to {requestee.name}
+							{requestee.role === "coach" ? "Lesson" : "Match"}{" "}
+							Request to {requestee.name}
 						</Typography>
 						<FormControl key="date" sx={{ my: 2 }}>
 							<DatePicker
 								id="outlined-required"
 								value={date}
-								defaultValue={dayjs("2023-04-19T15:30")}
+								defaultValue={dayjs("2023-05-25T15:30")}
 								label="Date"
 								onChange={(newValue) => {
 									setDate(newValue);
@@ -95,26 +135,29 @@ const MatchRequestScreen = () => {
 								id="outlined-required"
 								value={time}
 								label="Time"
-								defaultValue={dayjs("2023-04-19T15:30")}
+								defaultValue={dayjs("2023-05-25T15:30")}
 								onChange={(newValue) => {
 									setTime(newValue);
 								}}
 							/>
 						</FormControl>
-						<FormControl key="matchtype" sx={{ my: 2 }}>
-							<InputLabel>Match Type</InputLabel>
-							<Select
-								id="outlined-required"
-								value={matchType}
-								label="MatchType"
-								onChange={(e) => {
-									setMatchType(e.target.value);
-								}}
-							>
-								<MenuItem value="Singles">Singles</MenuItem>
-								<MenuItem value="Doubles">Doubles</MenuItem>
-							</Select>
-						</FormControl>
+						{requestee.role === "player" && (
+							<FormControl key="matchtype" sx={{ my: 2 }}>
+								<InputLabel>Match Type</InputLabel>
+								<Select
+									id="outlined-required"
+									value={matchType}
+									label="MatchType"
+									onChange={(e) => {
+										setMatchType(e.target.value);
+									}}
+								>
+									<MenuItem value="Singles">Singles</MenuItem>
+									<MenuItem value="Doubles">Doubles</MenuItem>
+								</Select>
+							</FormControl>
+						)}
+
 						<FormControl key="skilllevel" sx={{ my: 2 }}>
 							<InputLabel>Skill Level</InputLabel>
 							<Select
@@ -133,7 +176,7 @@ const MatchRequestScreen = () => {
 								<MenuItem value="5.0">5.0</MenuItem>
 							</Select>
 						</FormControl>
-						<FormControl>
+						<FormControl sx={{ my: 2 }}>
 							<InputLabel>
 								Choose the court from your courts
 							</InputLabel>
@@ -150,6 +193,15 @@ const MatchRequestScreen = () => {
 								))}
 							</Select>
 						</FormControl>
+						{requestee.role === "coach" && (
+							<FormControl sx={{ my: 2 }}>
+								<TextField
+									label="Reason for a lesson"
+									value={lesson}
+									onChange={(e) => setLesson(e.target.value)}
+								/>
+							</FormControl>
+						)}
 						<Button
 							variant="contained"
 							color="success"

@@ -41,9 +41,22 @@ const PublicHomeComponent = () => {
 					justifyContent="center"
 					spacing={2}
 				>
-					<Grid item xs={7}>
-						<Typography sx={{ my: 2 }} variant="h4">
-							Welcome back {currentUser.name}
+					<Grid
+						item
+						xs={7}
+						sx={{ display: "flex", flexDirection: "row" }}
+						alignItems="center"
+						justifyContent="center"
+					>
+						<Typography sx={{ my: 2, mx: 2 }} variant="h4">
+							Welcome back,
+						</Typography>
+						<Avatar
+							alt="profile-pic"
+							src={currentUser.profileImage}
+						/>
+						<Typography sx={{ my: 2, mx: 2 }} variant="h4">
+							{currentUser.name}!
 						</Typography>
 					</Grid>
 					<Grid item xs={7}>

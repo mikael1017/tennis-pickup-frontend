@@ -42,6 +42,7 @@ const RegisterScreen = () => {
 		let formIsValid = true;
 
 		requiredFields.forEach((field) => {
+			console.log(field.value);
 			if (!field.value) {
 				formIsValid = false;
 				field.classList.add("is-invalid");
@@ -104,6 +105,7 @@ const RegisterScreen = () => {
 								city,
 								skillLevel,
 								profileImage,
+								isAdmin,
 							})
 						);
 						navigate("/");
@@ -136,8 +138,8 @@ const RegisterScreen = () => {
 						</ReactFileReader>
 					</FormControl>
 					<FormControl sx={{ mb: 1 }}>
-						<InputLabel>Username</InputLabel>
 						<TextField
+							label="Username"
 							value={username}
 							onChange={(e) => {
 								setUsername(e.target.value);
@@ -146,8 +148,8 @@ const RegisterScreen = () => {
 						/>
 					</FormControl>
 					<FormControl sx={{ mb: 1 }}>
-						<InputLabel>Password</InputLabel>
 						<TextField
+							label="Password"
 							value={password}
 							onChange={(e) => {
 								setPassword(e.target.value);
@@ -156,8 +158,8 @@ const RegisterScreen = () => {
 						/>
 					</FormControl>
 					<FormControl sx={{ mb: 1 }}>
-						<InputLabel>Name</InputLabel>
 						<TextField
+							label="Name"
 							value={name}
 							onChange={(e) => {
 								setName(e.target.value);
@@ -169,41 +171,39 @@ const RegisterScreen = () => {
 					<FormControl sx={{ mb: 1 }}>
 						<InputLabel>Role</InputLabel>
 						<Select
+							label="Role"
 							value={role}
 							onChange={(e) => {
 								setRole(e.target.value);
 							}}
-							required
 						>
 							<MenuItem value="player">Player</MenuItem>
-							<MenuItem value="admin">Admin</MenuItem>
 							<MenuItem value="coach">Coach</MenuItem>
+							<MenuItem value="admin">Admin</MenuItem>
 						</Select>
 					</FormControl>
 
 					<FormControl sx={{ mb: 1 }}>
-						<InputLabel>Email</InputLabel>
 						<TextField
+							label="E-mail"
 							value={email}
 							onChange={(e) => {
 								setEmail(e.target.value);
 							}}
-							required
 						/>
 					</FormControl>
 					<FormControl sx={{ mb: 1 }}>
-						<InputLabel>Phone</InputLabel>
 						<TextField
+							label="Phone Number"
 							value={phoneNumber}
 							onChange={(e) => {
 								setPhoneNumber(e.target.value);
 							}}
-							required
 						/>
 					</FormControl>
 					<FormControl sx={{ mb: 1 }}>
-						<InputLabel>City</InputLabel>
 						<TextField
+							label="City"
 							value={city}
 							onChange={(e) => {
 								setCity(e.target.value);
@@ -246,8 +246,8 @@ const RegisterScreen = () => {
 					)}
 					{role === "admin" && (
 						<FormControl sx={{ mb: 1 }}>
-							<InputLabel>Enter admin code</InputLabel>
 							<TextField
+								label="Enter admin code"
 								value={adminCode}
 								onChange={(e) => {
 									setAdminCode(e.target.value);

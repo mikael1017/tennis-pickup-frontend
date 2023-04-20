@@ -34,7 +34,26 @@ const ProfileScreen = () => {
 		{ name: "Phone Number", value: "phoneNumber" },
 		{ name: "Skill Level", value: "skillLevel" },
 	];
+	const [followingList, setFollowingList] = useState([]);
 
+	const handleClickFollow = (userId) => {
+		const newFollowingList = [...followingList, userId];
+		setFollowingList(newFollowingList);
+		const newProfile = {
+			...currentUser,
+			followingPeople: newFollowingList,
+		};
+		dispatch(updateUserThunk(newProfile));
+	};
+	const handleClickUnfollow = (userId) => {
+		const newFollowingList = followingList.filter((id) => id !== userId);
+		setFollowingList(newFollowingList);
+		const newProfile = {
+			...currentUser,
+			followingPeople: newFollowingList,
+		};
+		dispatch(updateUserThunk(newProfile));
+	};
 	const handleInputChange = (event, value) => {
 		const newProfile = { ...profile, [value]: event.target.value };
 		setProfile(newProfile);
@@ -61,6 +80,10 @@ const ProfileScreen = () => {
 		navigate(`/matchRequest/${username}`);
 	};
 	useEffect(() => {
+		if (currentUser) {
+			setFollowingList(currentUser.followingPeople);
+		}
+
 		fetchProfile();
 	}, [userId]);
 
@@ -98,12 +121,16 @@ const ProfileScreen = () => {
 					justifyContent="center"
 				>
 					<FormGroup>
-						<div>
+						<Grid sx={{ mt: 10 }}>
 							{/* i have to make a style of this  */}
-							<img alt="profile" src={profile.profileImage} />
-						</div>
+							<img
+								alt="profile"
+								src={profile.profileImage}
+								style={{ width: "300px", height: "250px" }}
+							/>
+						</Grid>
 						{labels.map(({ name, value }) => (
-							<FormControl key={value} sx={{ my: 2 }}>
+							<FormControl key={value} sx={{ my: 1 }}>
 								<TextField
 									id="outlined-required"
 									disabled={value === "username"}
@@ -156,6 +183,7 @@ const ProfileScreen = () => {
 								sx={{
 									maxWidth: "600px",
 									height: "100%",
+									backgroundColor: "#dbdbc8",
 								}}
 							>
 								<CardMedia
@@ -179,7 +207,7 @@ const ProfileScreen = () => {
 										variant="h5"
 										component="h2"
 									>
-										{profile.username}
+										{profile.name}
 									</Typography>
 									<Typography
 										variant="body2"
@@ -203,17 +231,130 @@ const ProfileScreen = () => {
 										{" NTRP rating - " + profile.skillLevel}
 									</Typography>
 									<br />
-									<Button
-										variant="contained"
-										color="secondary"
-										onClick={() => {
-											handleMatchRequest(
-												profile.username
-											);
-										}}
-									>
-										Send a match request
-									</Button>
+									{profile.role === "player" &&
+										currentUser.followingPeople.includes(
+											profile._id
+										) && (
+											<>
+												<Button
+													variant="contained"
+													color="primary"
+													onClick={() => {
+														handleMatchRequest(
+															profile.username
+														);
+													}}
+												>
+													Send a match request
+												</Button>
+												<Button
+													variant="contained"
+													color="error"
+													onClick={() => {
+														handleClickUnfollow(
+															profile._id
+														);
+													}}
+													sx={{ mt: 2 }}
+												>
+													Unfollow
+												</Button>
+											</>
+										)}
+									{profile.role === "player" &&
+										!currentUser.followingPeople.includes(
+											profile._id
+										) && (
+											<>
+												<Button
+													variant="contained"
+													color="primary"
+													onClick={() => {
+														handleMatchRequest(
+															profile.username
+														);
+													}}
+													disabled
+												>
+													Follow to send a match
+													request
+												</Button>
+												<Button
+													variant="contained"
+													color="success"
+													onClick={() => {
+														handleClickFollow(
+															profile._id
+														);
+													}}
+													sx={{ mt: 2 }}
+												>
+													Follow
+												</Button>
+											</>
+										)}
+									{profile.role === "coach" &&
+										currentUser.followingPeople.includes(
+											profile._id
+										) && (
+											<>
+												<Button
+													variant="contained"
+													color="primary"
+													onClick={() => {
+														handleMatchRequest(
+															profile.username
+														);
+													}}
+												>
+													Request for a lesson
+												</Button>
+												<Button
+													variant="contained"
+													color="error"
+													onClick={() => {
+														handleClickUnfollow(
+															profile._id
+														);
+													}}
+													sx={{ mt: 2 }}
+												>
+													Unfollow
+												</Button>
+											</>
+										)}
+									{profile.role === "coach" &&
+										!currentUser.followingPeople.includes(
+											profile._id
+										) && (
+											<>
+												<Button
+													variant="contained"
+													color="primary"
+													onClick={() => {
+														handleMatchRequest(
+															profile.username
+														);
+													}}
+													disabled
+												>
+													Follow to request for a
+													lesson
+												</Button>
+												<Button
+													variant="contained"
+													color="success"
+													onClick={() => {
+														handleClickFollow(
+															profile._id
+														);
+													}}
+													sx={{ mt: 2 }}
+												>
+													Follow
+												</Button>
+											</>
+										)}
 								</CardContent>
 							</Card>
 						</Grid>

@@ -54,8 +54,8 @@ function PublicNavBar() {
 	const handleNavClick = async (page) => {
 		handleCloseNavMenu();
 		if (page === "logout") {
-			await dispatch(logoutThunk());
 			navigate("/");
+			await dispatch(logoutThunk());
 		} else if (page === "profile") {
 			if (currentUser) {
 				navigate(`/profile/${currentUser.username}`);

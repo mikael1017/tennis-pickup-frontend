@@ -13,14 +13,14 @@ const FollowingPeopleList = () => {
 				sx={{
 					width: "100%",
 					maxWidth: 360,
-					bgcolor: "background.paper",
+					backgroundColor: "#dbdbc8",
 				}}
 			>
 				{users.map((user) => {
 					if (currentUser.followingPeople.includes(user._id)) {
 						return (
 							<>
-								<ProfileListItem user={user} />
+								<ProfileListItem sx={{ my: 5 }} user={user} />
 							</>
 						);
 					}

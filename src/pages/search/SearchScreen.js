@@ -72,12 +72,16 @@ const SearchScreen = () => {
 				<Grid container spacing={2}>
 					{courtResults.map((court) => (
 						<Grid item xs={12} sm={6} md={4} key={court?.place_id}>
-							<Card sx={{ maxWidth: 345, height: "100%" }}>
+							<Card
+								style={cardMediaStyle}
+								onClick={() => handleCourtClick(court.place_id)}
+								sx={{
+									maxWidth: 345,
+									height: "100%",
+									backgroundColor: "#dbdbc8",
+								}}
+							>
 								<CardMedia
-									style={cardMediaStyle}
-									onClick={() =>
-										handleCourtClick(court.place_id)
-									}
 									sx={{ width: 345, height: 140 }}
 									image={`https://maps.googleapis.com/maps/api/streetview?size=345x140&location=${court?.geometry.location.lat},${court?.geometry.location.lng}&key=${apiKey}`}
 									title="Tennis Court Image"

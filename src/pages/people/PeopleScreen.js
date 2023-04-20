@@ -93,6 +93,9 @@ const PeopleScreen = () => {
 						>
 							<Paper
 								sx={{
+									my: 2,
+									backgroundColor: "#dbdbc8",
+									// backgroundColor: "#79f281",
 									p: 5,
 									// display: "flex",
 									// justifyContent: "center",
@@ -166,7 +169,7 @@ const PeopleScreen = () => {
 								</Typography>
 								<br />
 								<Button
-									color="secondary"
+									color="primary"
 									variant="contained"
 									onClick={() => {
 										handleClickProfile(user.username);

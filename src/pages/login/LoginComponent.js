@@ -37,8 +37,8 @@ function LoginScreen() {
 				</Typography>
 				<FormGroup>
 					<FormControl sx={{ mt: 1 }}>
-						<InputLabel>Username</InputLabel>
 						<TextField
+							label="Username"
 							value={username}
 							onChange={(e) => {
 								setUsername(e.target.value);
@@ -46,8 +46,8 @@ function LoginScreen() {
 						/>
 					</FormControl>
 					<FormControl sx={{ mt: 1 }}>
-						<InputLabel>Password</InputLabel>
 						<TextField
+							label="Password"
 							value={password}
 							onChange={(e) => {
 								setPassword(e.target.value);

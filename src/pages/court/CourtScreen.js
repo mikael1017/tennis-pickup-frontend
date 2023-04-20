@@ -14,6 +14,7 @@ import {
 	Card,
 	CardContent,
 	Typography,
+	List,
 } from "@mui/material";
 import { getCourtFollowers } from "../../services/court/court-service";
 import { findAllUsersThunk } from "../../services/users/users-thunk";
@@ -60,7 +61,13 @@ const CourtScreen = () => {
 				<Container maxWidth="md" sx={{ mt: 4 }}>
 					<Grid container spacing={2}>
 						<Grid item xs={12} sm={12} md={12} key={courtId}>
-							<Card sx={{ maxWidth: "650px", height: "100%" }}>
+							<Card
+								sx={{
+									backgroundColor: "#dbdbc8",
+									maxWidth: "650px",
+									height: "100%",
+								}}
+							>
 								<CardMedia
 									// style={cardMediaStyle}
 									sx={{ width: 600, height: 400 }}
@@ -100,19 +107,22 @@ const CourtScreen = () => {
 
 			<h1>People following this court</h1>
 			{currentUser && (
-				<>
+				<List sx={{ backgroundColor: "#dbdbc8" }}>
 					{followingList &&
 						users.map((user) => {
 							// console.log(user);
 							if (followingList.includes(user._id)) {
 								return (
 									<>
-										<ProfileListItem user={user} />
+										<ProfileListItem
+											// sx={{ backgroundColor: "#dbdbc8" }}
+											user={user}
+										/>
 									</>
 								);
 							}
 						})}
-				</>
+				</List>
 			)}
 			{!currentUser && <h2>You must log in to see other people!</h2>}
 		</>
