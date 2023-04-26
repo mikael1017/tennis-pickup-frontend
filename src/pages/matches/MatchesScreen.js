@@ -63,7 +63,7 @@ const MatchesScreen = () => {
 		>
 			<Grid
 				item
-				xs={7}
+				xs={9}
 				sx={{
 					my: 2,
 				}}
@@ -81,7 +81,7 @@ const MatchesScreen = () => {
 			</Grid>
 			<Grid
 				item
-				xs={7}
+				xs={9}
 				sx={{
 					my: 2,
 				}}
@@ -99,7 +99,7 @@ const MatchesScreen = () => {
 			</Grid>
 			<Grid
 				item
-				xs={7}
+				xs={9}
 				sx={{
 					my: 2,
 				}}

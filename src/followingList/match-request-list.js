@@ -52,23 +52,23 @@ const MatchRequestsList = (props) => {
 										: type === "confirmed"
 										? "#a5fa9b"
 										: "#ededda",
-								p: 5,
+								p: 7,
 								flexDirection: "column",
 							}}
 						>
 							<Typography variant="h4">
 								{type === "received" &&
-									"Username: " + request.requestedUsername}
+									"Id: " + request.requestedUsername}
 								{type === "pending" &&
-									"Username: " + request.requesteeUsername}
+									"Id: " + request.requesteeUsername}
 								{type === "confirmed" &&
 									request.requestedUsername ===
 										currentUser.username &&
-									"Username: " + request.requesteeUsername}
+									"Id: " + request.requesteeUsername}
 								{type === "confirmed" &&
 									request.requesteeUsername ===
 										currentUser.username &&
-									"Username: " + request.requestedUsername}
+									"Id: " + request.requestedUsername}
 							</Typography>
 							<Typography variant="h5">{request.date}</Typography>
 							<Typography variant="h5">{request.time}</Typography>
@@ -83,7 +83,7 @@ const MatchRequestsList = (props) => {
 							{type === "received" && (
 								<>
 									<Button
-										sx={{ mx: 2 }}
+										sx={{ mx: 1 }}
 										color="primary"
 										variant="contained"
 										onClick={() => {
@@ -105,7 +105,7 @@ const MatchRequestsList = (props) => {
 							)}
 							{type === "pending" && (
 								<Button
-									sx={{ mx: 2 }}
+									sx={{ mx: 1 }}
 									color="error"
 									variant="contained"
 									onClick={() => {
@@ -117,7 +117,7 @@ const MatchRequestsList = (props) => {
 							)}
 							{type === "confirmed" && (
 								<Button
-									sx={{ mx: 2 }}
+									sx={{ mx: 1 }}
 									color="error"
 									variant="contained"
 									onClick={() => {

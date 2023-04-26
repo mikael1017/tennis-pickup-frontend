@@ -21,10 +21,16 @@ function LoginScreen() {
 	const handleLogin = async () => {
 		try {
 			const response = await dispatch(loginThunk({ username, password }));
-			const user = response.payload;
-			localStorage.setItem("user", JSON.stringify(user));
-			// console.log(user);
-			navigate(`/`);
+			if (response.meta.requestStatus === "fulfilled") {
+				const user = response.payload;
+				localStorage.setItem("user", JSON.stringify(user));
+				// console.log(user);
+				navigate(`/`);
+			}
+
+			if (response.error.name === "Error") {
+				alert("Invalid username or password");
+			}
 		} catch (err) {
 			// console.log(err);
 		}

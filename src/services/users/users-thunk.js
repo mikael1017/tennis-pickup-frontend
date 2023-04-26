@@ -42,6 +42,7 @@ export const loginThunk = createAsyncThunk(
 	"users/login",
 	async (credentials) => {
 		const response = await userService.login(credentials);
+		console.log(response);
 		return response.data;
 	}
 );

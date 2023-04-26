@@ -53,7 +53,7 @@ const CourtScreen = () => {
 				followingCourts: newFollowingList,
 			};
 			console.log(currentUser._id);
-			const newCourtFollowers = [currentUser._id];
+			const newCourtFollowers = [...followingList, currentUser._id];
 			setFollowingList(newCourtFollowers);
 
 			await dispatch(updateUserThunk(newProfile));
