@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE = process.env.REACT_APP_API_BASE;
+const API_BASE = "https://tennis-pickup-backend.onrender.com/api";
 const COURTS_API = `${API_BASE}/courts`;
 
 export const findCourtsByCity = async (city) => {
