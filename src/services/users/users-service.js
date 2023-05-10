@@ -1,5 +1,6 @@
 import axios from "axios";
-const USERS_API_URL = "http://localhost:4000/api/users";
+const API_BASE = "https://tennis-pickup-backend.onrender.com/api";
+const USERS_API_URL = `${API_BASE}/users`;
 
 const api = axios.create({
 	withCredentials: true,

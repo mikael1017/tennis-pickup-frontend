@@ -1,5 +1,6 @@
 import axios from "axios";
-const MATCHES_API_URL = "http://localhost:4000/api/matches";
+const MATCHES_API_URL =
+	"https://tennis-pickup-backend.onrender.com/api/matches";
 const api = axios.create({
 	withCredentials: true,
 });
